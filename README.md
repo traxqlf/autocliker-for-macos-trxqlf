@@ -36,7 +36,7 @@ Pour compiler et exécuter ce projet depuis le code source :
 
 1. **Cloner le dépôt sur votre machine :**
    ```bash
-   git clone [https://github.com/traxqlf/autocliker-for-macos-trxqlf.git](https://github.com/traxqlf/autocliker-for-macos-trxqlf.git)
+   git clone https://github.com/traxqlf/autocliker-for-macos-trxqlf.git
 
 <br>
 <br>
@@ -81,4 +81,5 @@ To compile and run this project from the source code, you will need:
 
 1. **Clone the repository to your machine:**
    ```bash
-   git clone [https://github.com/traxqlf/autocliker-for-macos-trxqlf.git](https://github.com/traxqlf/autocliker-for-macos-trxqlf.git)
+   git clone https://github.com/traxqlf/autocliker-for-macos-trxqlf.git
+
