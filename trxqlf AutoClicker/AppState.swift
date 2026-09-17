@@ -144,8 +144,14 @@ final class AppState: ObservableObject {
     }
 
     func resetHotkeysToDefaults() {
-        updateStartHotkey(.startDefault)
-        updateRecordHotkey(.recordDefault)
+        // Assignation directe (sans le garde anti-doublon des update*),
+        // pour que le reset marche même si les touches ont été inversées.
+        startHotkey = .startDefault
+        recordHotkey = .recordDefault
+        registerStartHotkey()
+        registerRecordHotkey()
+        persistHotkeys()
+        statusText = String(localized: "Raccourcis réinitialisés : \(HotkeyCombo.startDefault.displayString) / \(HotkeyCombo.recordDefault.displayString)")
     }
 
     // MARK: - Positions

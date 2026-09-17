@@ -1,4 +1,5 @@
 import SwiftUI
+import AppKit
 import Carbon.HIToolbox
 
 struct ContentView: View {
@@ -138,29 +139,15 @@ struct MainTab: View {
 
             // 5. RACCOURCIS
             Section {
-                HStack {
-                    Text("Démarrer / Arrêter")
-                        .fixedSize() // <-- Empêche la troncature du texte
-                    Spacer()
-                    Text(state.startHotkey.displayString)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 2)
-                        .background(Color.gray.opacity(0.15)) // Recrée le fond gris natif
-                        .cornerRadius(4)
+                HotkeyRecorderView(title: "Démarrer / Arrêter", combo: state.startHotkey) {
+                    state.updateStartHotkey($0)
                 }
-                
-                HStack {
-                    Text("Enregistrer une position")
-                        .fixedSize() // <-- Empêche la troncature du texte
-                    Spacer()
-                    Text(state.recordHotkey.displayString)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 2)
-                        .background(Color.gray.opacity(0.15))
-                        .cornerRadius(4)
+
+                HotkeyRecorderView(title: "Enregistrer une position", combo: state.recordHotkey) {
+                    state.updateRecordHotkey($0)
                 }
-                
-                Button("Réinitialiser (F6 / F7)") {
+
+                Button("Réinitialiser (\(HotkeyCombo.startDefault.displayString) / \(HotkeyCombo.recordDefault.displayString))") {
                     state.resetHotkeysToDefaults()
                 }
                 .padding(.top, 4)
@@ -211,11 +198,7 @@ struct PositionsTab: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("""
-                 Place ton curseur où tu veux, puis appuie sur F7 (ou le bouton \
-                 ci-dessous) pour enregistrer la position. L'appli cliquera \
-                 ensuite sur chaque position dans l'ordre, en boucle.
-                 """)
+            Text("Place ton curseur où tu veux, puis appuie sur \(state.recordHotkey.displayString) (ou le bouton ci-dessous) pour enregistrer la position. L'appli cliquera ensuite sur chaque position dans l'ordre, en boucle.")
                 .font(.caption)
                 .foregroundColor(.secondary)
 
@@ -244,7 +227,8 @@ struct PositionsTab: View {
 // MARK: - Enregistreur de raccourci clavier
 
 /// Bouton qui, quand on clique dessus, attend la prochaine combinaison de
-/// touches tapée par l'utilisateur (ex: ⌘P) et la renvoie via `onChange`.
+/// touches tapée par l'utilisateur (ex: ⌘P, ou une touche seule comme F9)
+/// et la renvoie via `onChange`. Échap annule.
 struct HotkeyRecorderView: View {
     let title: LocalizedStringKey
     let combo: HotkeyCombo
@@ -256,9 +240,14 @@ struct HotkeyRecorderView: View {
     var body: some View {
         HStack {
             Text(title)
+                .fixedSize()
             Spacer()
-            Button(isRecording ? "Appuie sur une touche…" : combo.displayString) {
-                startRecording()
+            Button(isRecording ? "Appuie sur une touche..." : combo.displayString) {
+                if isRecording {
+                    stopRecording()
+                } else {
+                    startRecording()
+                }
             }
             .frame(minWidth: 140)
             .foregroundColor(isRecording ? .accentColor : .primary)
