@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		2103A9AE305BD5DC0025EE00 /* AutoClicker Thibault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AutoClicker Thibault.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2103A9AE305BD5DC0025EE00 /* trxqlf AutoClicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "trxqlf AutoClicker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		2103A9B0305BD5DC0025EE00 /* AutoClicker Thibault */ = {
+		2103A9B0305BD5DC0025EE00 /* trxqlf AutoClicker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "AutoClicker Thibault";
+			path = "trxqlf AutoClicker";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -30,7 +30,7 @@
 		2103A9A5305BD5DC0025EE00 = {
 			isa = PBXGroup;
 			children = (
-				2103A9B0305BD5DC0025EE00 /* AutoClicker Thibault */,
+				2103A9B0305BD5DC0025EE00 /* trxqlf AutoClicker */,
 				2103A9AF305BD5DC0025EE00 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -38,7 +38,7 @@
 		2103A9AF305BD5DC0025EE00 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2103A9AE305BD5DC0025EE00 /* AutoClicker Thibault.app */,
+				2103A9AE305BD5DC0025EE00 /* trxqlf AutoClicker.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -46,9 +46,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2103A9AD305BD5DC0025EE00 /* AutoClicker Thibault */ = {
+		2103A9AD305BD5DC0025EE00 /* trxqlf AutoClicker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2103A9B9305BD5E00025EE00 /* Build configuration list for PBXNativeTarget "AutoClicker Thibault" */;
+			buildConfigurationList = 2103A9B9305BD5E00025EE00 /* Build configuration list for PBXNativeTarget "trxqlf AutoClicker" */;
 			buildPhases = (
 				2103A9AA305BD5DC0025EE00 /* Sources */,
 				2103A9AB305BD5DC0025EE00 /* Frameworks */,
@@ -57,11 +57,11 @@
 			buildRules = (
 			);
 			fileSystemSynchronizedGroups = (
-				2103A9B0305BD5DC0025EE00 /* AutoClicker Thibault */,
+				2103A9B0305BD5DC0025EE00 /* trxqlf AutoClicker */,
 			);
-			name = "AutoClicker Thibault";
+			name = "trxqlf AutoClicker";
 			productName = "AutoClicker Thibault";
-			productReference = 2103A9AE305BD5DC0025EE00 /* AutoClicker Thibault.app */;
+			productReference = 2103A9AE305BD5DC0025EE00 /* trxqlf AutoClicker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -79,7 +79,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2103A9A9305BD5DC0025EE00 /* Build configuration list for PBXProject "AutoClicker Thibault" */;
+			buildConfigurationList = 2103A9A9305BD5DC0025EE00 /* Build configuration list for PBXProject "trxqlf AutoClicker" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -93,7 +93,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2103A9AD305BD5DC0025EE00 /* AutoClicker Thibault */,
+				2103A9AD305BD5DC0025EE00 /* trxqlf AutoClicker */,
 			);
 		};
 /* End PBXProject section */
@@ -115,7 +115,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		2103A9B7305BD5E00025EE00 /* Debug configuration for PBXProject "AutoClicker Thibault" */ = {
+		2103A9B7305BD5E00025EE00 /* Debug configuration for PBXProject "trxqlf AutoClicker" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -180,7 +180,7 @@
 			};
 			name = Debug;
 		};
-		2103A9B8305BD5E00025EE00 /* Release configuration for PBXProject "AutoClicker Thibault" */ = {
+		2103A9B8305BD5E00025EE00 /* Release configuration for PBXProject "trxqlf AutoClicker" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -237,7 +237,7 @@
 			};
 			name = Release;
 		};
-		2103A9BA305BD5E00025EE00 /* Debug configuration for PBXNativeTarget "AutoClicker Thibault" */ = {
+		2103A9BA305BD5E00025EE00 /* Debug configuration for PBXNativeTarget "trxqlf AutoClicker" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -271,7 +271,7 @@
 			};
 			name = Debug;
 		};
-		2103A9BB305BD5E00025EE00 /* Release configuration for PBXNativeTarget "AutoClicker Thibault" */ = {
+		2103A9BB305BD5E00025EE00 /* Release configuration for PBXNativeTarget "trxqlf AutoClicker" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -308,19 +308,19 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2103A9A9305BD5DC0025EE00 /* Build configuration list for PBXProject "AutoClicker Thibault" */ = {
+		2103A9A9305BD5DC0025EE00 /* Build configuration list for PBXProject "trxqlf AutoClicker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2103A9B7305BD5E00025EE00 /* Debug configuration for PBXProject "AutoClicker Thibault" */,
-				2103A9B8305BD5E00025EE00 /* Release configuration for PBXProject "AutoClicker Thibault" */,
+				2103A9B7305BD5E00025EE00 /* Debug configuration for PBXProject "trxqlf AutoClicker" */,
+				2103A9B8305BD5E00025EE00 /* Release configuration for PBXProject "trxqlf AutoClicker" */,
 			);
 			defaultConfigurationName = Release;
 		};
-		2103A9B9305BD5E00025EE00 /* Build configuration list for PBXNativeTarget "AutoClicker Thibault" */ = {
+		2103A9B9305BD5E00025EE00 /* Build configuration list for PBXNativeTarget "trxqlf AutoClicker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2103A9BA305BD5E00025EE00 /* Debug configuration for PBXNativeTarget "AutoClicker Thibault" */,
-				2103A9BB305BD5E00025EE00 /* Release configuration for PBXNativeTarget "AutoClicker Thibault" */,
+				2103A9BA305BD5E00025EE00 /* Debug configuration for PBXNativeTarget "trxqlf AutoClicker" */,
+				2103A9BB305BD5E00025EE00 /* Release configuration for PBXNativeTarget "trxqlf AutoClicker" */,
 			);
 			defaultConfigurationName = Release;
 		};
