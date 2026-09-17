@@ -8,6 +8,13 @@ Un outil d'auto-clic moderne, léger et ultra-rapide développé en **Swift** et
 Vous ne souhaitez pas compiler le code ? Téléchargez directement la dernière version stable :
 * **[👉 Télécharger le .dmg (v1.0)](https://github.com/traxqlf/autocliker-for-macos-trxqlf/releases/latest)** *(Glissez l'application dans votre dossier Applications)*
 
+## ⚠️ Note importante
+Si macOS bloque l'ouverture de l'application :
+1. Ouvrez les **Réglages Système** de votre Mac.
+2. Allez dans l'onglet **Confidentialité et sécurité**.
+3. Faites défiler vers le bas pour trouver le message concernant l'application, puis cliquez sur **Ouvrir quand même**.
+*(Cette manipulation n'est à faire qu'au tout premier lancement).*
+
 ---
 
 ## ✨ Fonctionnalités
@@ -44,7 +51,14 @@ A modern, lightweight, and blazing-fast auto-clicker tool developed in **Swift**
 
 ## 📥 Download
 Don't want to compile the code? Download the latest stable release directly:
-* **[👉 Download .dmg (v1.0)](https://github.com/traxqlf/autocliker-for-macos-trxqlf/releases/latest)** *(Drag the app into your Applications folder and you're good to go!)*
+* **[👉 Download .dmg (v1.0)](https://github.com/traxqlf/autocliker-for-macos-trxqlf/releases/latest)** *(Drag the app into your Applications)*
+
+## ⚠️ Important Note (macOS Security)
+If macOS blocks the app from opening:
+1. Open your Mac's **System Settings**.
+2. Go to **Privacy & Security**.
+3. Scroll down to find the message regarding the app, then click **Open Anyway**.
+*(You only need to do this the very first time you launch the app).*
 
 ---
 
