@@ -70,7 +70,7 @@ If macOS blocks the app from opening:
 ## 🛠️ Prerequisites (For Developers)
 To compile and run this project from the source code, you will need:
 * macOS 14 (Sonoma) or newer.
-* **Xcode** (dernière version conseillée).
+* **Xcode** (latest version is recommanded).
    ```bash
   	1.	Open the project :
         Open the clone folder and double-click the project's Xcode file.
