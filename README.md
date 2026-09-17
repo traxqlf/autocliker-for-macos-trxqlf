@@ -31,7 +31,7 @@ Pour compiler et exécuter ce projet depuis le code source :
    ```bash
    git clone [https://github.com/traxqlf/autocliker-for-macos-trxqlf.git](https://github.com/traxqlf/autocliker-for-macos-trxqlf.git)
 
-
+<br>
 
 
 # 🖱️ macOS AutoClicker (English🇬🇧)
