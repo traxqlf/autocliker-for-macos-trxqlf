@@ -1,5 +1,5 @@
-# 🖱️ macOS AutoClicker
-FR tuto🇫🇷
+# 🖱️ macOS AutoClicker (Tutorial in English below🇬🇧)
+
 Un outil d'auto-clic moderne, léger et ultra-rapide développé en **Swift** et **SwiftUI**, conçu exclusivement pour macOS.
 
 ---
@@ -31,8 +31,7 @@ Pour compiler et exécuter ce projet depuis le code source :
    ```bash
    git clone [https://github.com/traxqlf/autocliker-for-macos-trxqlf.git](https://github.com/traxqlf/autocliker-for-macos-trxqlf.git)
 
-EN tuto🇬🇧
-# 🖱️ macOS AutoClicker
+# 🖱️ macOS AutoClicker (English🇬🇧)
 
 A modern, lightweight, and blazing-fast auto-clicker tool developed in **Swift** and **SwiftUI**, built exclusively for macOS.
 
@@ -53,6 +52,12 @@ Don't want to compile the code? Download the latest stable release directly:
 To compile and run this project from the source code, you will need:
 * macOS 14 (Sonoma) or newer.
 * **Xcode** (latest version recommended).
+   ```bash
+1.	Open the project :
+  	 Open the cloned folder and double-click the project's Xcode file.
+2.	Run the application :
+   In Xcode, click the Play button (or `Cmd + R`) to compile and launch the app.
+
 
 ## 🚀 Installation & Usage (From Source Code)
 
