@@ -53,11 +53,10 @@ To compile and run this project from the source code, you will need:
 * macOS 14 (Sonoma) or newer.
 * **Xcode** (latest version recommended).
    ```bash
-1.	Open the project :
-  	 Open the cloned folder and double-click the project's Xcode file.
-2.	Run the application :
+1. Open the project :
+   Open the cloned folder and double-click the project's Xcode file.
+2. Run the application :
    In Xcode, click the Play button (or `Cmd + R`) to compile and launch the app.
-
 
 ## 🚀 Installation & Usage (From Source Code)
 
