@@ -19,9 +19,10 @@ Vous ne souhaitez pas compiler le code ? Téléchargez directement la dernière 
 Pour compiler et exécuter ce projet depuis le code source :
 * macOS 14 (Sonoma) ou version supérieure.
 * **Xcode** (dernière version conseillée).
-  		1.	Ouvrir le projet :
+   ```bash
+  	1.	Ouvrir le projet :
         Ouvrez le dossier cloné et double-cliquez sur le fichier Xcode du projet.
-		2.	Lancer l'application :
+	2.	Lancer l'application :
         Dans Xcode, appuyez sur le bouton Play (ou Cmd + R) pour compiler et lancer l'application.
 
 ## 🚀 Installation & Utilisation (Via le code source)
