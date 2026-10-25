@@ -6,20 +6,34 @@ struct ContentView: View {
     @EnvironmentObject var state: AppState
 
     var body: some View {
-        VStack(spacing: 0) {
-            if !state.accessibilityTrusted {
-                permissionBanner
+        ZStack {
+            GeometryReader { geo in
+                Image("Background")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
+                    .clipped()
             }
-            
-            TabView {
-                MainTab()
-                    .tabItem { Text("Clic auto") }
-                PositionsTab()
-                    .tabItem { Text("Positions multiples") }
+            .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                if !state.accessibilityTrusted {
+                    permissionBanner
+                }
+
+                TabView {
+                    MainTab()
+                        .tabItem { Text("Clic auto") }
+                    PositionsTab()
+                        .tabItem { Text("Positions multiples") }
+                    KeyHoldTab()
+                        .tabItem { Text("Touche") }
+                }
+                .padding()
             }
-            .padding()
+            .frame(width: 400, height: 400)
         }
-        .frame(width: 400, height: 400)
+        .frame(width: 520, height: 580)
     }
 
 
@@ -51,6 +65,7 @@ struct MainTab: View {
                 Grid(horizontalSpacing: 15, verticalSpacing: 8) {
                     GridRow {
                         Text("Minutes :")
+                            .foregroundColor(.white)
                             .gridColumnAlignment(.trailing) // Aligne tous les textes de cette colonne à droite
                         
                         TextField("", value: $state.minutes, format: .number)
@@ -61,6 +76,7 @@ struct MainTab: View {
                     
                     GridRow {
                         Text("Secondes :")
+                            .foregroundColor(.white)
                         
                         TextField("", value: $state.seconds, format: .number)
                             .textFieldStyle(.roundedBorder)
@@ -70,6 +86,7 @@ struct MainTab: View {
                     
                     GridRow {
                         Text("Millisecondes :")
+                            .foregroundColor(.white)
                         
                         TextField("", value: $state.milliseconds, format: .number)
                             .textFieldStyle(.roundedBorder)
@@ -81,6 +98,7 @@ struct MainTab: View {
                 Text("Intervalle entre les clics")
                     .font(.headline)
                     .bold()
+                    .foregroundColor(.white)
                     .padding(.top, 14)
                     .padding(.bottom, 2)
             }
@@ -93,14 +111,17 @@ struct MainTab: View {
                     Text("Droit").tag(ClickEngine.ClickButton.right)
                     Text("Milieu").tag(ClickEngine.ClickButton.middle)
                 }
+                .foregroundColor(.white)
                 Picker("Type", selection: $state.clickType) {
                     Text("Simple").tag(ClickEngine.ClickType.single)
                     Text("Double").tag(ClickEngine.ClickType.double)
                 }
+                .foregroundColor(.white)
             } header: {
                 Text("Options de clic")
                     .font(.headline)
                     .bold()
+                    .foregroundColor(.white)
                     .padding(.top, 14)
                     .padding(.bottom, 2)
             }
@@ -111,14 +132,17 @@ struct MainTab: View {
                     Text("Nombre de fois").tag(false)
                 }
                 .pickerStyle(.radioGroup)
+                .foregroundColor(.white)
 
                 if !state.repeatUntilStopped {
                     Stepper("Répéter \(state.repeatCount) fois", value: $state.repeatCount, in: 1...100000)
+                        .foregroundColor(.white)
                 }
             } header: {
                 Text("Répétition")
                     .font(.headline)
                     .bold()
+                    .foregroundColor(.white)
                     .padding(.top, 14)
                     .padding(.bottom, 2)
             }
@@ -129,10 +153,12 @@ struct MainTab: View {
                     Text("Utiliser la liste de positions").tag(true)
                 }
                 .pickerStyle(.radioGroup)
+                .foregroundColor(.white)
             } header: {
                 Text("Position du curseur")
                     .font(.headline)
                     .bold()
+                    .foregroundColor(.white)
                     .padding(.top, 14)
                     .padding(.bottom, 2)
             }
@@ -147,7 +173,7 @@ struct MainTab: View {
                     state.updateRecordHotkey($0)
                 }
 
-                Button("Réinitialiser (\(HotkeyCombo.startDefault.displayString) / \(HotkeyCombo.recordDefault.displayString))") {
+                Button("Réinitialiser (\(HotkeyCombo.startDefault.displayString) / \(HotkeyCombo.recordDefault.displayString) / \(HotkeyCombo.holdDefault.displayString))") {
                     state.resetHotkeysToDefaults()
                 }
                 .padding(.top, 4)
@@ -155,6 +181,7 @@ struct MainTab: View {
                 Text("Raccourcis clavier")
                     .font(.headline)
                     .bold()
+                    .foregroundColor(.white)
                     .padding(.top, 14)
                     .padding(.bottom, 2)
             }
@@ -182,12 +209,136 @@ struct MainTab: View {
                 Spacer()
 
                 Text(state.statusText)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.white)
                     .font(.caption)
+                    .shadow(color: .black.opacity(0.8), radius: 2)
             }
             .padding(.top, 8)
             .padding(.bottom, 10)
         }
+        .scrollContentBackground(.hidden)
+    }
+}
+
+// MARK: - Onglet maintien de touche
+
+/// Libellés d'un clavier AZERTY associés aux codes de touches physiques
+/// (identiques aux positions d'un clavier QWERTY).
+private struct AZERTYKey: Identifiable {
+    let label: String
+    let code: Int
+    var id: Int { code }
+}
+
+private let azertyKeys: [AZERTYKey] = [
+    AZERTYKey(label: "A", code: kVK_ANSI_Q),
+    AZERTYKey(label: "B", code: kVK_ANSI_B),
+    AZERTYKey(label: "C", code: kVK_ANSI_C),
+    AZERTYKey(label: "D", code: kVK_ANSI_D),
+    AZERTYKey(label: "E", code: kVK_ANSI_E),
+    AZERTYKey(label: "F", code: kVK_ANSI_F),
+    AZERTYKey(label: "G", code: kVK_ANSI_G),
+    AZERTYKey(label: "H", code: kVK_ANSI_H),
+    AZERTYKey(label: "I", code: kVK_ANSI_I),
+    AZERTYKey(label: "J", code: kVK_ANSI_J),
+    AZERTYKey(label: "K", code: kVK_ANSI_K),
+    AZERTYKey(label: "L", code: kVK_ANSI_L),
+    AZERTYKey(label: "M", code: kVK_ANSI_Semicolon),
+    AZERTYKey(label: "N", code: kVK_ANSI_N),
+    AZERTYKey(label: "O", code: kVK_ANSI_O),
+    AZERTYKey(label: "P", code: kVK_ANSI_P),
+    AZERTYKey(label: "Q", code: kVK_ANSI_A),
+    AZERTYKey(label: "R", code: kVK_ANSI_R),
+    AZERTYKey(label: "S", code: kVK_ANSI_S),
+    AZERTYKey(label: "T", code: kVK_ANSI_T),
+    AZERTYKey(label: "U", code: kVK_ANSI_U),
+    AZERTYKey(label: "V", code: kVK_ANSI_V),
+    AZERTYKey(label: "W", code: kVK_ANSI_Z),
+    AZERTYKey(label: "X", code: kVK_ANSI_X),
+    AZERTYKey(label: "Y", code: kVK_ANSI_Y),
+    AZERTYKey(label: "Z", code: kVK_ANSI_W),
+    AZERTYKey(label: "Espace", code: kVK_Space),
+    AZERTYKey(label: "Maj", code: kVK_Shift),
+    AZERTYKey(label: "Contrôle", code: kVK_Control),
+    AZERTYKey(label: "Option", code: kVK_Option),
+    AZERTYKey(label: "Tab", code: kVK_Tab),
+    AZERTYKey(label: "Entrée", code: kVK_Return),
+    AZERTYKey(label: "Échap", code: kVK_Escape),
+    AZERTYKey(label: "←", code: kVK_LeftArrow),
+    AZERTYKey(label: "→", code: kVK_RightArrow),
+    AZERTYKey(label: "↓", code: kVK_DownArrow),
+    AZERTYKey(label: "↑", code: kVK_UpArrow),
+]
+
+struct KeyHoldTab: View {
+    @EnvironmentObject var state: AppState
+
+    var body: some View {
+        Form {
+            Section {
+                Picker("Touche (AZERTY)", selection: $state.holdKeyCode) {
+                    ForEach(azertyKeys) { key in
+                        Text(key.label).tag(key.code)
+                    }
+                }
+                .foregroundColor(.white)
+            } header: {
+                Text("Touche à maintenir")
+                    .font(.headline)
+                    .bold()
+                    .foregroundColor(.white)
+                    .padding(.top, 14)
+                    .padding(.bottom, 2)
+            }
+
+            Section {
+                HotkeyRecorderView(title: "Maintenir / Relâcher", combo: state.holdHotkey) {
+                    state.updateHoldHotkey($0)
+                }
+            } header: {
+                Text("Raccourci clavier")
+                    .font(.headline)
+                    .bold()
+                    .foregroundColor(.white)
+                    .padding(.top, 14)
+                    .padding(.bottom, 2)
+            }
+
+            Text("La touche reste enfoncée jusqu'à ce que tu appuies sur Relâcher, même si tu changes d'application. Le raccourci \(state.holdHotkey.displayString) marche aussi depuis le jeu.")
+                .font(.caption)
+                .foregroundColor(.white)
+                .shadow(color: .black.opacity(0.8), radius: 2)
+
+            HStack {
+                if state.isHoldingKey {
+                    Button("Relâcher") {
+                        state.toggleKeyHold()
+                    }
+                    .keyboardShortcut(.defaultAction)
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color(red: 0.1, green: 0.2, blue: 0.6))
+                    .controlSize(.large)
+                } else {
+                    Button("Maintenir") {
+                        state.toggleKeyHold()
+                    }
+                    .keyboardShortcut(.defaultAction)
+                    .buttonStyle(.bordered)
+                    .tint(.blue)
+                    .controlSize(.large)
+                }
+
+                Spacer()
+
+                Text(state.statusText)
+                    .foregroundColor(.white)
+                    .font(.caption)
+                    .shadow(color: .black.opacity(0.8), radius: 2)
+            }
+            .padding(.top, 8)
+            .padding(.bottom, 10)
+        }
+        .scrollContentBackground(.hidden)
     }
 }
 
@@ -200,14 +351,18 @@ struct PositionsTab: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Place ton curseur où tu veux, puis appuie sur \(state.recordHotkey.displayString) (ou le bouton ci-dessous) pour enregistrer la position. L'appli cliquera ensuite sur chaque position dans l'ordre, en boucle.")
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(.white)
+                .shadow(color: .black.opacity(0.8), radius: 2)
 
             List {
                 ForEach(Array(state.positions.enumerated()), id: \.offset) { index, point in
                     Text("\(index + 1). (\(Int(point.x)), \(Int(point.y)))")
+                        .foregroundColor(.white)
+                        .listRowBackground(Color.clear)
                 }
                 .onDelete { state.removePosition(at: $0) }
             }
+            .scrollContentBackground(.hidden)
             .frame(minHeight: 220)
 
             HStack {
@@ -241,6 +396,7 @@ struct HotkeyRecorderView: View {
         HStack {
             Text(title)
                 .fixedSize()
+                .foregroundColor(.white)
             Spacer()
             Button(isRecording ? "Appuie sur une touche..." : combo.displayString) {
                 if isRecording {
@@ -250,7 +406,7 @@ struct HotkeyRecorderView: View {
                 }
             }
             .frame(minWidth: 140)
-            .foregroundColor(isRecording ? .accentColor : .primary)
+            .foregroundColor(isRecording ? .accentColor : .white)
         }
         .onDisappear { stopRecording() }
     }

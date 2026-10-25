@@ -25,9 +25,14 @@ final class AppState: ObservableObject {
     @AppStorage("savedUsePositions") var useCustomPositions: Bool = false
     @Published var positions: [CGPoint] = []
 
+    // Maintien de touche (code physique : kVK_ANSI_W correspond à Z en AZERTY)
+    @AppStorage("savedHoldKeyCode") var holdKeyCode: Int = kVK_ANSI_W
+    @Published var isHoldingKey: Bool = false
+
     // Raccourcis (configurables, persistés dans UserDefaults)
     @Published private(set) var startHotkey: HotkeyCombo = .startDefault
     @Published private(set) var recordHotkey: HotkeyCombo = .recordDefault
+    @Published private(set) var holdHotkey: HotkeyCombo = .holdDefault
 
     // État
     @Published var isRunning: Bool = false
@@ -36,16 +41,23 @@ final class AppState: ObservableObject {
     @Published var accessibilityTrusted: Bool = false
 
     private let engine = ClickEngine()
+    private let keyHoldEngine = KeyHoldEngine()
     private let hotkeyManager = HotkeyManager()
     private let defaults = UserDefaults.standard
     private let startHotkeyKey = "autoclicker.startHotkey"
     private let recordHotkeyKey = "autoclicker.recordHotkey"
+    private let holdHotkeyKey = "autoclicker.holdHotkey"
 
     init() {
+        // Les positions ne sont pas persistées : au lancement la liste est vide,
+        // donc on repart sur le curseur au lieu de bloquer le démarrage.
+        if positions.isEmpty { useCustomPositions = false }
+
         checkAccessibilityPermission(prompt: false)
         loadPersistedHotkeys()
         registerStartHotkey()
         registerRecordHotkey()
+        registerHoldHotkey()
 
         engine.onFinished = { [weak self] in
             self?.isRunning = false
@@ -72,6 +84,10 @@ final class AppState: ObservableObject {
            let combo = try? JSONDecoder().decode(HotkeyCombo.self, from: data) {
             recordHotkey = combo
         }
+        if let data = defaults.data(forKey: holdHotkeyKey),
+           let combo = try? JSONDecoder().decode(HotkeyCombo.self, from: data) {
+            holdHotkey = combo
+        }
     }
 
     private func persistHotkeys() {
@@ -80,6 +96,9 @@ final class AppState: ObservableObject {
         }
         if let data = try? JSONEncoder().encode(recordHotkey) {
             defaults.set(data, forKey: recordHotkeyKey)
+        }
+        if let data = try? JSONEncoder().encode(holdHotkey) {
+            defaults.set(data, forKey: holdHotkeyKey)
         }
     }
 
@@ -95,11 +114,21 @@ final class AppState: ObservableObject {
         }
     }
 
+    private func registerHoldHotkey() {
+        hotkeyManager.setHotkey(role: "hold", combo: holdHotkey) { [weak self] in
+            self?.toggleKeyHold()
+        }
+    }
+
     @discardableResult
     func updateStartHotkey(_ combo: HotkeyCombo) -> Bool {
         guard combo != recordHotkey else {
             // ⬇️ MODIFIÉ ICI
             statusText = String(localized: "Ce raccourci est déjà utilisé pour l'enregistrement de position")
+            return false
+        }
+        guard combo != holdHotkey else {
+            statusText = String(localized: "Ce raccourci est déjà utilisé pour le maintien de touche")
             return false
         }
         let previous = startHotkey
@@ -126,6 +155,10 @@ final class AppState: ObservableObject {
             statusText = String(localized: "Ce raccourci est déjà utilisé pour démarrer/arrêter")
             return false
         }
+        guard combo != holdHotkey else {
+            statusText = String(localized: "Ce raccourci est déjà utilisé pour le maintien de touche")
+            return false
+        }
         let previous = recordHotkey
         recordHotkey = combo
         guard hotkeyManager.setHotkey(role: "record", combo: combo, handler: { [weak self] in
@@ -143,15 +176,42 @@ final class AppState: ObservableObject {
         return true
     }
 
+    @discardableResult
+    func updateHoldHotkey(_ combo: HotkeyCombo) -> Bool {
+        guard combo != startHotkey else {
+            statusText = String(localized: "Ce raccourci est déjà utilisé pour démarrer/arrêter")
+            return false
+        }
+        guard combo != recordHotkey else {
+            statusText = String(localized: "Ce raccourci est déjà utilisé pour l'enregistrement de position")
+            return false
+        }
+        let previous = holdHotkey
+        holdHotkey = combo
+        guard hotkeyManager.setHotkey(role: "hold", combo: combo, handler: { [weak self] in
+            self?.toggleKeyHold()
+        }) else {
+            holdHotkey = previous
+            registerHoldHotkey()
+            statusText = String(localized: "Ce raccourci est déjà utilisé par une autre application")
+            return false
+        }
+        persistHotkeys()
+        statusText = String(localized: "Raccourci maintien de touche : \(combo.displayString)")
+        return true
+    }
+
     func resetHotkeysToDefaults() {
         // Assignation directe (sans le garde anti-doublon des update*),
         // pour que le reset marche même si les touches ont été inversées.
         startHotkey = .startDefault
         recordHotkey = .recordDefault
+        holdHotkey = .holdDefault
         registerStartHotkey()
         registerRecordHotkey()
+        registerHoldHotkey()
         persistHotkeys()
-        statusText = String(localized: "Raccourcis réinitialisés : \(HotkeyCombo.startDefault.displayString) / \(HotkeyCombo.recordDefault.displayString)")
+        statusText = String(localized: "Raccourcis réinitialisés : \(HotkeyCombo.startDefault.displayString) / \(HotkeyCombo.recordDefault.displayString) / \(HotkeyCombo.holdDefault.displayString)")
     }
 
     // MARK: - Positions
@@ -222,5 +282,35 @@ final class AppState: ObservableObject {
         isRunning = false
         // ⬇️ MODIFIÉ ICI
         statusText = String(localized: "Arrêté")
+    }
+
+    // MARK: - Maintien de touche
+
+    func toggleKeyHold() {
+        if isHoldingKey {
+            stopKeyHold()
+        } else {
+            startKeyHold()
+        }
+    }
+
+    func startKeyHold() {
+        guard !isHoldingKey else { return }
+
+        if !accessibilityTrusted {
+            checkAccessibilityPermission(prompt: true)
+            statusText = String(localized: "Autorisation d'Accessibilité requise (voir Réglages Système)")
+            return
+        }
+
+        keyHoldEngine.start(keyCode: CGKeyCode(holdKeyCode))
+        isHoldingKey = true
+        statusText = String(localized: "Touche maintenue")
+    }
+
+    func stopKeyHold() {
+        keyHoldEngine.stop()
+        isHoldingKey = false
+        statusText = String(localized: "Touche relâchée")
     }
 }

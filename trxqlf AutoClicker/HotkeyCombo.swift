@@ -9,6 +9,7 @@ struct HotkeyCombo: Codable, Equatable {
 
     static let startDefault = HotkeyCombo(keyCode: UInt32(kVK_F6), modifiers: 0)
     static let recordDefault = HotkeyCombo(keyCode: UInt32(kVK_F7), modifiers: 0)
+    static let holdDefault = HotkeyCombo(keyCode: UInt32(kVK_F8), modifiers: 0)
 
     /// Construit un combo à partir d'un événement clavier (keyDown) capté
     /// pendant l'enregistrement du raccourci dans l'UI.
