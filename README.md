@@ -6,7 +6,7 @@ Un outil d'auto-clic moderne, léger et ultra-rapide développé en **Swift** et
 
 ## 📥 Téléchargement (Download)
 Vous ne souhaitez pas compiler le code ? Téléchargez directement la dernière version stable :
-* **[👉 Télécharger le .dmg (v1.0)](https://github.com/traxqlf/autocliker-for-macos-trxqlf/releases/latest)** *(Glissez l'application dans votre dossier Applications)*
+* **[👉 Télécharger le .dmg](https://github.com/traxqlf/autocliker-for-macos-trxqlf/releases/latest)** *(Glissez l'application dans votre dossier Applications)*
 
 ## ⚠️ Note importante
 Si macOS bloque l'ouverture de l'application :
