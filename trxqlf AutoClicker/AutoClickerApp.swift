@@ -9,7 +9,6 @@ struct AutoClickerApp: App {
             ContentView()
                 .environmentObject(state)
                 .frame(width: 520, height: 580)
-                .fixedSize()
         }
         .windowResizability(.contentSize)
     }

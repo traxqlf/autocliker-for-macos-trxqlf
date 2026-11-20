@@ -3,11 +3,11 @@ import Cocoa
 /// Simule les clics souris via CGEvent et gère la boucle de répétition.
 final class ClickEngine {
 
-    enum ClickButton {
+    enum ClickButton: Int {
         case left, right, middle
     }
 
-    enum ClickType {
+    enum ClickType: Int {
         case single, double
     }
 
