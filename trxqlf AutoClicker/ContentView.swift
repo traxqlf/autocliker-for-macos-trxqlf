@@ -562,6 +562,7 @@ struct PositionsTab: View {
 
 struct SettingsTab: View {
     @EnvironmentObject var state: AppState
+    @EnvironmentObject var updater: UpdaterController
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -637,6 +638,12 @@ struct SettingsTab: View {
                         }
                         Spacer()
                     }
+
+                    Button("Rechercher des mises à jour…") {
+                        updater.checkForUpdates()
+                    }
+                    .disabled(!updater.canCheckForUpdates)
+                    .glassButton()
                 }
             }
             .padding(.vertical, 2)
